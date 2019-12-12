@@ -5,13 +5,13 @@ from setuptools import setup, find_packages
 
 name = "interpret"
 # NOTE: Version is replaced by a regex script.
-version = "0.1.19"
+version = "0.1.20"
 long_description = """
 In the beginning machines learned in darkness, and data scientists struggled in the void to explain them.
 
 Let there be light.
 
-https://github.com/microsoft/interpret
+https://github.com/interpretml/interpret
 """
 interpret_core_extra = [
     "required",
@@ -33,10 +33,10 @@ setup(
     version=version,
     author="InterpretML Team",
     author_email="interpret@microsoft.com",
-    description="Fit interpretable models. Explain blackbox machine learning.",
+    description="Fit interpretable machine learning models. Explain blackbox machine learning.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/microsoft/interpret",
+    url="https://github.com/interpretml/interpret",
     packages=find_packages(),
     package_data={},
     classifiers=[

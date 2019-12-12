@@ -35,19 +35,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "man", "man", "{B695C21B-DB5
 	ProjectSection(SolutionItems) = preProject
 		R\man\ebm_feature.Rd = R\man\ebm_feature.Rd
 		R\man\ebm_feature_combination.Rd = R\man\ebm_feature_combination.Rd
-		R\man\get_best_model_feature_combination.Rd = R\man\get_best_model_feature_combination.Rd
-		R\man\get_current_model_feature_combination.Rd = R\man\get_current_model_feature_combination.Rd
 		R\man\get_interaction_score.Rd = R\man\get_interaction_score.Rd
 		R\man\initialize_interaction_classification.Rd = R\man\initialize_interaction_classification.Rd
 		R\man\initialize_interaction_regression.Rd = R\man\initialize_interaction_regression.Rd
-		R\man\initialize_training_classification.Rd = R\man\initialize_training_classification.Rd
-		R\man\initialize_training_regression.Rd = R\man\initialize_training_regression.Rd
-		R\man\training_step.Rd = R\man\training_step.Rd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "R", "R", "{71DB2E08-9023-4AB7-9961-C4635B88C1B8}"
 	ProjectSection(SolutionItems) = preProject
 		R\R\interpret_core.R = R\R\interpret_core.R
+		R\R\native_booster.R = R\R\native_booster.R
+		R\R\native_interactions.R = R\R\native_interactions.R
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{589FA769-174B-43F0-9665-8F310F4C3E5A}"

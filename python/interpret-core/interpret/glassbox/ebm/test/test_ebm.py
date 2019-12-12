@@ -1,6 +1,10 @@
 # Copyright (c) 2019 Microsoft Corporation
 # Distributed under the MIT software license
 
+# TODO PK add a test for Regression with interactions
+# TODO PK add a test with a real regression dataset
+# TODO PK add a test with more than 1 multiclass interaction
+
 from ....test.utils import (
     synthetic_multiclass,
     synthetic_classification,
@@ -94,8 +98,8 @@ def test_prefit_ebm():
     clf = ExplainableBoostingClassifier(n_jobs=1, interactions=0, data_n_episodes=0)
     clf.fit(X, y)
 
-    for _, attrib_set_model in enumerate(clf.attribute_set_models_):
-        has_non_zero = np.any(attrib_set_model)
+    for _, model_feature_combination in enumerate(clf.attribute_set_models_):
+        has_non_zero = np.any(model_feature_combination)
         assert not has_non_zero
 
 
@@ -113,11 +117,10 @@ def test_ebm_synthetic_regression():
 
 
 def valid_ebm(ebm):
-    assert ebm.attribute_sets_[0]["n_attributes"] == 1
     assert ebm.attribute_sets_[0]["attributes"] == [0]
 
-    for _, attrib_set_model in enumerate(ebm.attribute_set_models_):
-        all_finite = np.isfinite(attrib_set_model).all()
+    for _, model_feature_combination in enumerate(ebm.attribute_set_models_):
+        all_finite = np.isfinite(model_feature_combination).all()
         assert all_finite
 
 
@@ -158,9 +161,15 @@ def _smoke_test_explanations(global_exp, local_exp, port):
 @pytest.mark.visual
 @pytest.mark.slow
 def test_ebm_adult():
+    from sklearn.metrics import roc_auc_score
+
     data = adult_classification()
     X = data["full"]["X"]
     y = data["full"]["y"]
+    X_tr = data["train"]["X"]
+    y_tr = data["train"]["y"]
+    X_te = data["test"]["X"]
+    y_te = data["test"]["y"]
 
     clf = ExplainableBoostingClassifier(n_jobs=-2, interactions=3)
     n_splits = 3
@@ -168,16 +177,23 @@ def test_ebm_adult():
     cross_validate(
         clf, X, y, scoring="roc_auc", cv=ss, n_jobs=None, return_estimator=True
     )
-    clf.fit(X, y)
-    prob_scores = clf.predict_proba(X)
+
+    clf = ExplainableBoostingClassifier(n_jobs=-2, interactions=3)
+    clf.fit(X_tr, y_tr)
+
+    prob_scores = clf.predict_proba(X_te)
 
     within_bounds = (prob_scores >= 0.0).all() and (prob_scores <= 1.0).all()
     assert within_bounds
 
+    # Performance
+    auc = roc_auc_score(y_te, prob_scores[:, 1])
+    assert auc > 0.5
+
     valid_ebm(clf)
 
     global_exp = clf.explain_global()
-    local_exp = clf.explain_local(X[:5, :], y[:5])
+    local_exp = clf.explain_local(X_te[:5, :], y_te[:5])
 
     _smoke_test_explanations(global_exp, local_exp, 6000)
 
@@ -201,3 +217,12 @@ def test_ebm_iris():
     local_exp = clf.explain_local(X_test, y_test)
 
     _smoke_test_explanations(global_exp, local_exp, 6001)
+
+
+def test_zero_validation():
+    data = synthetic_classification()
+    X = data["full"]["X"]
+    y = data["full"]["y"]
+
+    clf = ExplainableBoostingClassifier(n_jobs=1, interactions=2, holdout_split=0)
+    clf.fit(X, y)

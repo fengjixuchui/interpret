@@ -5,8 +5,8 @@
 ![License](https://img.shields.io/github/license/microsoft/interpret.svg?style=flat-square)
 ![Python Version](https://img.shields.io/pypi/pyversions/interpret.svg?style=flat-square)
 ![Package Version](https://img.shields.io/pypi/v/interpret.svg?style=flat-square)
-![Build Status](https://img.shields.io/azure-devops/build/ms/interpret/151/master.svg?style=flat-square)
-![Coverage](https://img.shields.io/azure-devops/coverage/ms/interpret/151/master.svg?style=flat-square)
+![Build Status](https://img.shields.io/azure-devops/build/ms/interpret/293/master.svg?style=flat-square)
+![Coverage](https://img.shields.io/azure-devops/coverage/ms/interpret/293/master.svg?style=flat-square)
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=flat-square)
 
 <br/>
@@ -17,14 +17,14 @@
 
 <br/>
 
-InterpretML is an open-source python package for training interpretable models and explaining blackbox systems. Interpretability is essential for:
+InterpretML is an open-source python package for training interpretable machine learning models and explaining blackbox systems. Interpretability is essential for:
 - Model debugging - Why did my model make this mistake?
 - Detecting bias - Does my model discriminate?
 - Human-AI cooperation - How can I understand and trust the model's decisions?
 - Regulatory compliance - Does my model satisfy legal requirements?
 - High-risk applications - Healthcare, finance, judicial, ...
 
-Historically, the most intelligible models were not very accurate, and the most accurate models were not intelligible. Microsoft Research has developed an algorithm called the Explainable Boosting Machine (EBM)<sup>[*](#ebm-footnote)</sup> which has both high accuracy and intelligibility. EBM uses modern machine learning techniques like bagging and boosting to breathe new life into traditional GAMs (Generalized Additive Models). This makes them as accurate as random forests and gradient boosted trees, and also enhances their intelligibility and editability.
+Historically, the most interpretable machine learning models were not very accurate, and the most accurate models were not very interpretable. Microsoft Research has developed an algorithm called the Explainable Boosting Machine (EBM)<sup>[*](#ebm-footnote)</sup> which has both high accuracy and interpretability. EBM uses modern machine learning techniques like bagging and boosting to breathe new life into traditional GAMs (Generalized Additive Models). This makes them as accurate as random forests and gradient boosted trees, and also enhances their intelligibility and editability.
 
 <br/>
 
@@ -96,17 +96,18 @@ show([logistic_regression, decision_tree])
 
 ## Example Notebooks
 
-- [Interpretable models for binary classification](https://nbviewer.jupyter.org/github/interpretml/interpret/blob/master/examples/python/notebooks/Interpretable%20Classification%20Methods.ipynb)
-- [Interpretable models for regression](https://nbviewer.jupyter.org/github/interpretml/interpret/blob/master/examples/python/notebooks/Interpretable%20Regression%20Methods.ipynb)
+- [Interpretable machine learning models for binary classification](https://nbviewer.jupyter.org/github/interpretml/interpret/blob/master/examples/python/notebooks/Interpretable%20Classification%20Methods.ipynb)
+- [Interpretable machine learning models for regression](https://nbviewer.jupyter.org/github/interpretml/interpret/blob/master/examples/python/notebooks/Interpretable%20Regression%20Methods.ipynb)
 - [Blackbox interpretability for binary classification](https://nbviewer.jupyter.org/github/interpretml/interpret/blob/master/examples/python/notebooks/Explaining%20Blackbox%20Classifiers.ipynb)
 - [Blackbox interpretability for regression](https://nbviewer.jupyter.org/github/interpretml/interpret/blob/master/examples/python/notebooks/Explaining%20Blackbox%20Regressors.ipynb)
 
 ## Roadmap
 
 Currently we're working on:
-- Multiclass Classification Support
+- R language interface
 - Missing Values Support
 - Improved Categorical Encoding
+- Interaction effect purification (see citations for details)
 
 ...and lots more! Get in touch to find out more.
 
