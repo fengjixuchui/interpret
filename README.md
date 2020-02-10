@@ -7,7 +7,7 @@
 ![Package Version](https://img.shields.io/pypi/v/interpret.svg?style=flat-square)
 ![Build Status](https://img.shields.io/azure-devops/build/ms/interpret/293/master.svg?style=flat-square)
 ![Coverage](https://img.shields.io/azure-devops/coverage/ms/interpret/293/master.svg?style=flat-square)
-![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=flat-square)
+![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 
 <br/>
 
@@ -498,7 +498,7 @@ We also build on top of many great packages. Please check them out!
 - [Dealing with Imbalanced Data (Mortgage loans defaults)](https://mikewlange.github.io/ImbalancedData-/index.html)
 - [Kaggle PGA Tour analysis by GAM](https://www.kaggle.com/juyamagu/pga-tour-analysis-by-gam)
 - [Interpretable Prediction of Goals in Soccer](http://statsbomb.com/wp-content/uploads/2019/10/decroos-interpretability-statsbomb.pdf)
-
+- [Explaining Model Pipelines With InterpretML](https://medium.com/@mariusvadeika/explaining-model-pipelines-with-interpretml-a9214f75400b)
 
 ## Contact us
 
