@@ -1,0 +1,21 @@
+LIBRARY
+
+EXPORTS
+  SetLogMessageFunction
+  SetTraceLevel
+  InitializeBoostingClassification
+  InitializeBoostingRegression
+  GenerateModelFeatureCombinationUpdate
+  ApplyModelFeatureCombinationUpdate
+  BoostingStep
+  GetBestModelFeatureCombination
+  GetCurrentModelFeatureCombination
+  FreeBoosting
+  InitializeInteractionClassification
+  InitializeInteractionRegression
+  GetInteractionScore
+  FreeInteraction
+  GenerateQuantileCutPoints
+  GenerateImprovedEqualWidthCutPoints
+  GenerateEqualWidthCutPoints
+  Discretize

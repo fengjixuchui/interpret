@@ -24,7 +24,7 @@ InterpretML is an open-source python package for training interpretable machine 
 - Regulatory compliance - Does my model satisfy legal requirements?
 - High-risk applications - Healthcare, finance, judicial, ...
 
-Historically, the most interpretable machine learning models were not very accurate, and the most accurate models were not very interpretable. Microsoft Research has developed an algorithm called the Explainable Boosting Machine (EBM)<sup>[*](#ebm-footnote)</sup> which has both high accuracy and interpretability. EBM uses modern machine learning techniques like bagging and boosting to breathe new life into traditional GAMs (Generalized Additive Models). This makes them as accurate as random forests and gradient boosted trees, and also enhances their intelligibility and editability.
+Historically, the most interpretable machine learning models were not very accurate, and the most accurate models were not very interpretable. Microsoft Research has developed an algorithm called the Explainable Boosting Machine (EBM)<sup>[*](#ebm-footnote)</sup> which has both high accuracy and interpretability. EBM uses modern machine learning techniques like bagging and gradient boosting to breathe new life into traditional GAMs (Generalized Additive Models). This makes them as accurate as random forests and gradient boosted trees, and also enhances their intelligibility and editability.
 
 <br/>
 
@@ -75,12 +75,6 @@ show(ebm_global)
 ```
 ![Global Explanation Image](examples/python/assets/readme_ebm_global_specific.PNG?raw=true)
 
-The graphs are the entire model.<sup>[*](#intercept-footnote)</sup>  For regression, sum the scores from each graph to get your prediction.  For classification, sum the scores and take the softmax.  Nothing is hidden.  You can inspect everything.
-
-<p align="right"><i>
-   <a name="intercept-footnote">*</a>A single global intercept score is also required for computation, but not visualization
-</i></p>
-
 <br/>
 
 Understand individual predictions
@@ -123,7 +117,7 @@ If you are interested contributing directly to the code base, please see [CONTRI
 
 ## Acknowledgements
 
-InterpretML was originally created by (equal contributions): Samuel Jenkins & Harsha Nori & Paul Koch & Rich Caruana
+InterpretML was originally created by (equal contributions): Samuel Jenkins, Harsha Nori, Paul Koch, and Rich Caruana
 
 Many people have supported us along the way. Check out [ACKNOWLEDGEMENTS.md](./ACKNOWLEDGEMENTS.md)!
 
@@ -499,6 +493,7 @@ We also build on top of many great packages. Please check them out!
 - [Kaggle PGA Tour analysis by GAM](https://www.kaggle.com/juyamagu/pga-tour-analysis-by-gam)
 - [Interpretable Prediction of Goals in Soccer](http://statsbomb.com/wp-content/uploads/2019/10/decroos-interpretability-statsbomb.pdf)
 - [Explaining Model Pipelines With InterpretML](https://medium.com/@mariusvadeika/explaining-model-pipelines-with-interpretml-a9214f75400b)
+- [Explain Your Model with Microsoft’s InterpretML](https://medium.com/@Dataman.ai/explain-your-model-with-microsofts-interpretml-5daab1d693b4)
 
 ## Contact us
 

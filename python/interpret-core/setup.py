@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 name = "interpret-core"
 # NOTE: Version is replaced by a regex script.
-version = "0.1.20"
+version = "0.1.21"
 long_description = """
 Core system for **the** interpret package.
 
@@ -34,14 +34,14 @@ entry_points = {
 }
 package_data = {
     "interpret": [
-        "lib/lib_ebmcore_win_x64.dll",
-        "lib/lib_ebmcore_linux_x64.so",
-        "lib/lib_ebmcore_mac_x64.dylib",
-        "lib/lib_ebmcore_win_x64_debug.dll",
-        "lib/lib_ebmcore_linux_x64_debug.so",
-        "lib/lib_ebmcore_mac_x64_debug.dylib",
-        "lib/lib_ebmcore_win_x64.pdb",
-        "lib/lib_ebmcore_win_x64_debug.pdb",
+        "lib/lib_ebm_native_win_x64.dll",
+        "lib/lib_ebm_native_linux_x64.so",
+        "lib/lib_ebm_native_mac_x64.dylib",
+        "lib/lib_ebm_native_win_x64_debug.dll",
+        "lib/lib_ebm_native_linux_x64_debug.so",
+        "lib/lib_ebm_native_mac_x64_debug.dylib",
+        "lib/lib_ebm_native_win_x64.pdb",
+        "lib/lib_ebm_native_win_x64_debug.pdb",
         "lib/interpret-inline.js",
         "visual/assets/udash.css",
         "visual/assets/udash.js",
@@ -53,7 +53,13 @@ sklearn_dep = "scikit-learn>=0.18.1"
 joblib_dep = "joblib>=0.11"
 extras = {
     # Core
-    "required": ["numpy>=1.11.1", "scipy>=0.18.1", "pandas>=0.19.2", sklearn_dep, joblib_dep],
+    "required": [
+        "numpy>=1.11.1",
+        "scipy>=0.18.1",
+        "pandas>=0.19.2",
+        sklearn_dep,
+        joblib_dep,
+    ],
     "debug": ["psutil>=5.6.2"],
     "notebook": ["ipykernel>=5.1.0", "ipython>=7.4.0"],
     # Plotly (required if .visualize is ever called)

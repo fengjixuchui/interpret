@@ -113,7 +113,7 @@ class EBMPreprocessor(BaseEstimator, TransformerMixin):
         unknown_constant=0,
         feature_names=None,
         feature_types=None,
-        binning_strategy="uniform",
+        binning_strategy="quantile",
     ):
         """ Initializes EBM preprocessor.
 
@@ -124,6 +124,7 @@ class EBMPreprocessor(BaseEstimator, TransformerMixin):
             missing_constant: Missing encoded as this constant.
             unknown_constant: Unknown encoded as this constant.
             feature_names: Feature names as list.
+            feature_types: Feature types as list, for example "continuous" or "categorical".
             binning_strategy: Strategy to compute bins according to density if "quantile" or equidistant if "uniform".
         """
         self.schema = schema
@@ -574,6 +575,7 @@ class BaseEBM(BaseEstimator):
     """Client facing SK EBM."""
 
     # Interface modeled after:
+    # https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html
     # https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
     # https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
     # https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
@@ -633,20 +635,18 @@ class BaseEBM(BaseEstimator):
         main_attr="all",
         # TODO PK v.2 we should probably have two types of interaction terms.
         #             The first is either a number or array of numbres that indicates
-        #             how many interactions at each dimension level(starting at two)
-        #             This parameter should be part of __init__
+        #             how many interactions at each dimension level (starting at two)
         #             The second parameter would be a list of specific interaction sets
-        #             that people may want to use
-        #             both at the same time, and there isn't a good way to separate the two concepts
-        #             without issues.  Also, the deserve to be in separate functions (init vs fit)
+        #             that people may want to use.  There isn't a good way to separate the two concepts
+        #             without issues.
         # TODO PK v.2 change interactions to n_interactions which can either be a number for pairs
         #             or can be a list/tuple of integers which denote the number of interactions per dimension
         #             so (3,2,1) would mean 3 pairs, 2 tripples, 1 quadruple
         # TODO PK v.2 add specific_interactions list of interactions to include (n_interactions will not re-pick these).
-        # Allow these to be in any order and don't sort that order, unlike the n_interactions parameter
+        #             Allow these to be in any order and don't sort that order, unlike the n_interactions parameter
         # TODO PK v.2 exclude -> exclude feature_combinations, either mains, or pairs or whatever.  This will take precedence over specific_interactions so anything there will be excluded
         interactions=0,
-        # TODO PK v.2 use test_size instead of holdout_split, since sklearn does
+        # TODO PK v.2 use validation_size instead of holdout_split, since sklearn uses "test_size"
         holdout_split=0.15,
         data_n_episodes=2000,
         # TODO PK v.2 eliminate early_stopping_tolerance (use zero for this!)
@@ -664,7 +664,8 @@ class BaseEBM(BaseEstimator):
         n_jobs=-2,
         random_state=42,
         # Preprocessor
-        binning_strategy="uniform",
+        binning_strategy="quantile",
+        max_n_bins=255,
     ):
         # TODO PK sanity check all our inputs
 
@@ -701,7 +702,13 @@ class BaseEBM(BaseEstimator):
 
         # Arguments for preprocessor
         self.binning_strategy = binning_strategy
+        self.max_n_bins = max_n_bins
 
+    # NOTE: Generally, we want to keep parameters in the __init__ function, since scikit-learn
+    #       doesn't like parameters in the fit function, other than ones like weights that have
+    #       the same length as the number of instances.  See:
+    #       https://github.com/microsoft/LightGBM/issues/2628#issue-536116395
+    #
     # NOTE: Consider refactoring later.
     def fit(self, X, y):  # noqa: C901
         # TODO PK we shouldn't expose our internal state until we are 100% sure that we succeeded
@@ -723,6 +730,7 @@ class BaseEBM(BaseEstimator):
         # Build preprocessor
         self.preprocessor_ = EBMPreprocessor(
             schema=self.schema,
+            max_n_bins=self.max_n_bins,
             binning_strategy=self.binning_strategy,
             feature_names=self.feature_names,
             feature_types=self.feature_types,
@@ -1272,6 +1280,13 @@ class BaseEBM(BaseEstimator):
 
         n_rows = instances.shape[1]
         data_dicts = []
+        intercept = self.intercept_
+        if self.n_classes_ <= 2:
+            if isinstance(self.intercept_, np.ndarray) or isinstance(
+                self.intercept_, list
+            ):
+                intercept = intercept[0]
+
         for _ in range(n_rows):
             data_dict = {
                 "type": "univariate",
@@ -1280,7 +1295,7 @@ class BaseEBM(BaseEstimator):
                 "values": [],
                 "extra": {
                     "names": ["Intercept"],
-                    "scores": [self.intercept_],
+                    "scores": [intercept],
                     "values": [1],
                 },
             }
@@ -1387,7 +1402,8 @@ class ExplainableBoostingClassifier(BaseEBM, ClassifierMixin, ExplainerMixin):
         n_jobs=-2,
         random_state=42,
         # Preprocessor
-        binning_strategy="uniform",
+        binning_strategy="quantile",
+        max_n_bins=255,
     ):
 
         super(ExplainableBoostingClassifier, self).__init__(
@@ -1418,6 +1434,7 @@ class ExplainableBoostingClassifier(BaseEBM, ClassifierMixin, ExplainerMixin):
             random_state=random_state,
             # Preprocessor
             binning_strategy=binning_strategy,
+            max_n_bins=max_n_bins,
         )
 
     # TODO: Throw ValueError like scikit for 1d instead of 2d arrays
@@ -1488,7 +1505,8 @@ class ExplainableBoostingRegressor(BaseEBM, RegressorMixin, ExplainerMixin):
         n_jobs=-2,
         random_state=42,
         # Preprocessor
-        binning_strategy="uniform",
+        binning_strategy="quantile",
+        max_n_bins=255,
     ):
 
         super(ExplainableBoostingRegressor, self).__init__(
@@ -1519,6 +1537,7 @@ class ExplainableBoostingRegressor(BaseEBM, RegressorMixin, ExplainerMixin):
             random_state=random_state,
             # Preprocessor
             binning_strategy=binning_strategy,
+            max_n_bins=max_n_bins,
         )
 
     def predict(self, X):

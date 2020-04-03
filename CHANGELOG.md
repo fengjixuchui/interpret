@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and the versioning is mostly derived from [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.1.21] - 2020-04-02
+### Added
+- Module "glassbox.ebm.research" now has purification utilities.
+- EBM now exposes "max_n_bins" argument for its preprocessing stage.
+### Fixed
+- Fix intercept not showing for local EBM binary classification.
+- Stack trace information exposed for extension system failures.
+- Better handling of sparse to dense conversions for all explainers.
+- Internal fixes for native code.
+- Better NaN / infinity handling within EBM.
+### Changed
+- Binning strategy for EBM now defaulted to 'quantile' instead of 'uniform'.
+
 ## [v0.1.20] - 2019-12-11
 ### Fixed
 - **Major bug fix** around EBM interactions. If you use interactions, please upgrade immediately.
@@ -235,6 +248,7 @@ and the versioning is mostly derived from [Semantic Versioning](https://semver.o
 - Libraries are statically linked where possible.
 - Code now conforms to Python Black and its associated flake8.
 
+[v0.1.21]: https://github.com/microsoft/interpret/releases/tag/v0.1.21
 [v0.1.20]: https://github.com/microsoft/interpret/releases/tag/v0.1.20
 [v0.1.19]: https://github.com/microsoft/interpret/releases/tag/v0.1.19
 [v0.1.18]: https://github.com/microsoft/interpret/releases/tag/v0.1.18

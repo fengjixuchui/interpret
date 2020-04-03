@@ -38,7 +38,10 @@ def get_all_explainers():
         LinearRegression,
         ExplainableBoostingRegressor,
     ]
-    specific_explainer_classes = [TreeInterpreter, ShapTree]
+    specific_explainer_classes = [
+        TreeInterpreter,
+        # ShapTree  # Disable for now, upstream issue.
+    ]
     blackbox_explainer_classes = [
         LimeTabular,
         ShapKernel,
@@ -118,8 +121,9 @@ def iris_classification():
 
 
 def adult_classification():
+    # SEC: This needs to change back to SSL once UCI resolves their expired cert.
     df = pd.read_csv(
-        "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data",
+        "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data",
         header=None,
     ).sample(frac=0.01, random_state=42)
     df.columns = [
